@@ -1,3 +1,8 @@
+:root{
+  --black-color: #232323;
+  --write-color: #f4f4f4;
+}
+
 .shadow {
   box-shadow: 0px 0px 3px gray;
 }
@@ -82,3 +87,44 @@
 .icon__modify:active {
   color: red;
 }
+
+/* 링크관련 */
+.link::after{
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 0%;
+  background: var(--write-color);
+  transition: all 0.3s;
+}
+
+.link:hover{
+  text-decoration: none;
+}
+
+.link:hover::after{ 
+  height: 100%;
+}
+
+.link__text{
+  z-index: 9999;
+  color: var(--write-color);
+  transition: all 0.3s;
+}
+
+.link:hover > .link__text{
+  position: relative;
+  color: var(--black-color);
+}
+
+.router-link-active {
+  background: var(--write-color);
+}
+
+.router-link-active > .link__text {
+  background: var(--write-color);
+  color: var(--black-color);
+}
+
