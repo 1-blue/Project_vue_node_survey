@@ -18,6 +18,7 @@ export default {
 
 <style scoped>
 #app {
+  background: var(--write-color);
 }
 
 @import "./css/reset.css";

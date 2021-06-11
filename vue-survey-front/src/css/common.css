@@ -76,15 +76,18 @@
 
 /* 아이콘 관련 */
 .icon__delete,
-.icon__modify {
+.icon__modify,
+.icon__add {
   cursor: pointer;
 }
 .icon__delete:hover,
-.icon__modify:hover {
+.icon__modify:hover,
+.icon__add:hover {
   color: #3fb6b7;
 }
 .icon__delete:active,
-.icon__modify:active {
+.icon__modify:active,
+.icon__add:active {
   color: red;
 }
 

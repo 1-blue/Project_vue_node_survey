@@ -20,6 +20,11 @@ const routes = [
     name: "AdminPage",
     component: () => import("@/views/AdminPage.vue"),
   },
+  {
+    path: "/survey/add",
+    name: "AddSurveyPage",
+    component: () => import("@/views/AddSurveyPage.vue"),
+  },
 ];
 
 const router = createRouter({

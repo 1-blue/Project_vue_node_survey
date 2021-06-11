@@ -6,6 +6,8 @@ Vue와 Node를 이용한 설문조사 시스템 구축
 2. 2일차
 	+ front : navigation-bar구현,  vuex와 cookie이용한 관리자계정 로그인 구현
 	+ back : swagger, jwt인증
+3. 3일차
+	+ front : 설문지생성관련 컴포넌트 작업중 ( vue3지식 부족으로 공식문서 정독한번하고 시작할 생각 )
 
 ## 사용한 것
 + vue.js
