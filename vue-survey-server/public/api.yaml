@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "Survey API"
+  description: "설문조사 API"
+servers:
+  - description: SurveyAPI
+    url: http://localhost:3000/
+paths:
+  /admin:
+    post:
+      summary: admin API
+      parameters:
+        - name: password
+          in: query
+          description: admin계정 비밀번호 입력
+          require: true
+          schema:
+            type: string   
+      responses:
+        "200":
+          description: 정상
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                  token:
+                    type: string
+        "401":
+          description: 비밀번호 오류
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string

@@ -48,9 +48,25 @@ sequelize
     console.error(err);
   });
 
-app.get("/", (req, res) => {
-  res.send("Hello");
+// cors처리
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+  } else {
+    next();
+  }
 });
+
+// 라우팅
+const adminRouter = require("./routes/admin.js");
+
+app.use("/admin", adminRouter);
 
 app.listen(app.get("port"), () => {
   console.log(`${app.get("port")}번 대기중`);
