@@ -9,14 +9,17 @@ module.exports = class Survey extends Sequelize.Model {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
+          comment: "질문지의 아이디",
         },
         title: {
           type: Sequelize.STRING(20),
           allowNull: false,
+          comment: "질문지 제목",
         },
         state: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          comment: "질문지 상태 (0: 대기, 1: 배포, 9: 종료)",
         },
       },
       {

@@ -9,15 +9,18 @@ module.exports = class User extends Sequelize.Model {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
+          comment: "유저의 아이디 ( 유저를 식별할 값 )",
         },
         email: {
           type: Sequelize.STRING(20),
           allowNull: false,
           unique: true,
+          comment: "유저 이메일",
         },
         name: {
           type: Sequelize.STRING(20),
           allowNull: false,
+          comment: "유저 이름",
         },
       },
       {

@@ -9,10 +9,12 @@ module.exports = class Answer extends Sequelize.Model {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
+          comment: "답변의 id",
         },
         answer: {
           type: Sequelize.STRING(400),
           allowNull: true,
+          comment: "답변 내용",
         },
       },
       {

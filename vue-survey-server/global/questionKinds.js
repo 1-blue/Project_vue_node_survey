@@ -1,0 +1,6 @@
+module.exports = {
+  TITLE: 0,
+  SHORT_SUBJECTIVE: 1,
+  LONG_SUBJECTIVE: 2,
+  MULTIPLE_CHOICE: 3,
+};

@@ -9,14 +9,15 @@ servers:
 paths:
   /admin:
     post:
-      summary: admin API
+      summary: 관리자계정로그인 API
+      description: 세부내용
       parameters:
-        - name: password
-          in: query
-          description: admin계정 비밀번호 입력
+        - in: query
+          name: password
+          description: 관리자계정 비밀번호 입력
           require: true
           schema:
-            type: string   
+            type: string
       responses:
         "200":
           description: 정상
@@ -38,3 +39,44 @@ paths:
                 properties:
                   msg:
                     type: string
+  /survey:
+    post:
+      summary: 설문지 생성 API
+      parameters:
+        - name: title
+          in: query
+          description: 설문지 내용 전송
+          require: true
+          schema:
+            type: object
+            properties:
+              kinds:
+                type: integer
+                example: 0
+              title:
+                type: string
+                example: 설문지의 제목
+              required:
+                type: boolean
+                example: true    
+      responses:
+        "200":
+          description: 정상
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                example: success
+        "400":
+          description: sequelize에러
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: error

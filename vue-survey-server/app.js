@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === "production") {
 // 시퀄라이즈 설정 ( DB )
 const { sequelize } = require("./models");
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log("db연결 성공");
   })
@@ -65,8 +65,10 @@ app.use((req, res, next) => {
 
 // 라우팅
 const adminRouter = require("./routes/admin.js");
+const surveyRouter = require("./routes/survey.js");
 
 app.use("/admin", adminRouter);
+app.use("/survey", surveyRouter);
 
 app.listen(app.get("port"), () => {
   console.log(`${app.get("port")}번 대기중`);

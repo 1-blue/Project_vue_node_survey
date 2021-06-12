@@ -9,10 +9,23 @@ module.exports = class Question extends Sequelize.Model {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
+          comment: "질문의 id",
         },
-        contents: {
+        title: {
           type: Sequelize.STRING(100),
           allowNull: false,
+          comment: "질문의 제목",
+        },
+        kinds: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          comment:
+            "질문의 종류 (0: 제목, 1: 단답 주관식, 2: 장문 주관식, 3: 객관식 )",
+        },
+        required: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          comment: "대답 필수인지 아닌지",
         },
         // 나중에 객관식 추가
       },

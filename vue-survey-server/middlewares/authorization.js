@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // 관리자인지 인증
-const administratorAuth = (req, res, next) => {
-  const token = req.authorization;
+const adminAuth = (req, res, next) => {
+  const token = req.headers.authorization;
   const decoded = jwt.verify(token, process.env.JWT_SERECT_KEY);
 
   if (decoded) {
@@ -13,4 +13,4 @@ const administratorAuth = (req, res, next) => {
   }
 };
 
-module.exports = administratorAuth;
+module.exports = adminAuth;
