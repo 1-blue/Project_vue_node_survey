@@ -2,10 +2,10 @@
   <div class="wrapper">
     <input
       type="text"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
       class="survey__title"
       placeholder="설문지 제목"
+      @change="$emit('update:title', index, title)"
+      v-model="title"
     />
     <span />
   </div>
@@ -15,10 +15,15 @@
 export default {
   name: "TitleInput",
   props: {
-    modelValue: {
-      type: String,
-      require: true,
+    index: {
+      type: Number,
+      required: true,
     },
+  },
+  data() {
+    return {
+      title: "",
+    };
   },
 };
 </script>

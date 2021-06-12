@@ -2,7 +2,7 @@
   <li id="survey__form">
     <!-- 설문지 제목 -->
     <form class="survey__form shadow" v-if="kinds === SURVEY_KINDS.TITLE">
-      <title-input v-model="surveyTitle"></title-input>
+      <title-input :index="index" @update:title="updateTitle"></title-input>
     </form>
 
     <!-- 짧은 주관식 -->
@@ -12,7 +12,11 @@
     >
       <short-subjective-input
         :index="index"
-        @changeForm="changeForm"
+        :isRequired="isRequired"
+        @change:form="changeForm"
+        @delete:form="deleteForm"
+        @toggle:isRequired="toggleIsRequired"
+        @update:title="updateTitle"
       ></short-subjective-input>
     </form>
 
@@ -23,7 +27,11 @@
     >
       <long-subjective-input
         :index="index"
-        @changeForm="changeForm"
+        :isRequired="isRequired"
+        @change:form="changeForm"
+        @delete:form="deleteForm"
+        @toggle:isRequired="toggleIsRequired"
+        @update:title="updateTitle"
       ></long-subjective-input>
     </form>
 
@@ -35,9 +43,9 @@
 </template>
 
 <script>
-import TitleInput from "@/components/common/TitleInput.vue";
-import ShortSubjectiveInput from "@/components/common/ShortSubjectiveInput.vue";
-import LongSubjectiveInput from "@/components/common/LongSubjectiveInput.vue";
+import TitleInput from "@/components/common/form/TitleInput.vue";
+import ShortSubjectiveInput from "@/components/common/form/ShortSubjectiveInput.vue";
+import LongSubjectiveInput from "@/components/common/form/LongSubjectiveInput.vue";
 
 export default {
   name: "SurveyForm",
@@ -47,13 +55,21 @@ export default {
     LongSubjectiveInput,
   },
   props: {
-    kinds: {
-      type: Number,
-      default: 1,
+    form: {
+      type: Object,
+      required: true,
     },
     index: {
       type: Number,
-      require: true,
+      required: true,
+    },
+  },
+  computed: {
+    kinds() {
+      return this.form.kinds;
+    },
+    isRequired() {
+      return this.form.isRequired;
     },
   },
   data() {
@@ -64,7 +80,16 @@ export default {
   methods: {
     changeForm(...args) {
       // 바꿀폼의 번호, 바꿀 폼의 종류 전달
-      this.$emit("changeForm", ...args);
+      this.$emit("change:form", ...args);
+    },
+    deleteForm(formIndex) {
+      this.$emit("delete:form", formIndex);
+    },
+    toggleIsRequired(formIndex) {
+      this.$emit("toggle:isRequired", formIndex);
+    },
+    updateTitle(formIndex, title) {
+      this.$emit("update:title", formIndex, title);
     },
   },
 };

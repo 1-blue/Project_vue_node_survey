@@ -56,7 +56,8 @@
           "arrowParens": "avoid",
           "endOfLine": "auto"
         }
-      ]
+      ],
+      "vue/no-v-model-argument": "off"
     }
   },
   "browserslist": [

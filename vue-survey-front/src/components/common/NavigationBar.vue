@@ -20,7 +20,7 @@
       </div>
       <li>
         <a href="https://github.com/1-blue" class="link">
-          <spna class="link__text">Github</spna>
+          <span class="link__text">Github</span>
         </a>
       </li>
     </ul>
