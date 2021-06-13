@@ -23,7 +23,7 @@ router.post("/", adminAuth, async (req, res) => {
       await Question.create({
         title: question.title,
         kinds: question.kinds,
-        required: question.isRequired,
+        required: question.required,
         SurveyId,
       });
     }
@@ -39,12 +39,114 @@ router.get("/", adminAuth, async (req, res) => {
   try {
     const surveyList = await Survey.findAll();
 
-    // 질문도 가져오는 코드
-    // const surveyList = await Survey.findAll({
-    //   include: [{ model: Question }],
-    // });
-
     res.json(surveyList);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// 하나의 설문지 상세내용 가져오기
+router.get("/:id", adminAuth, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const survey = await Survey.findOne({
+      where: { id },
+      include: [{ model: Question }],
+    });
+
+    res.json(survey);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// 설문지 및 질문 수정
+router.put("/:id", adminAuth, async (req, res) => {
+  const { id } = req.params;
+  const survey = req.body;
+
+  try {
+    // 설문지 수정
+    const updatedSurvey = await Survey.update(
+      { title: survey[0].title },
+      { where: { id } },
+    );
+
+    // 질문 생성 or 수정
+    for (let question of survey) {
+      if (question.kinds === QUESTION_KINDS.TITLE) continue;
+
+      // 질문 수정
+      if (question.id) {
+        await Question.update(
+          {
+            title: question.title,
+            kinds: question.kinds,
+            required: question.required,
+          },
+          {
+            where: { id: question.id },
+          },
+        );
+      }
+      // 질문 생성
+      else {
+        await Question.create({
+          title: question.title,
+          kinds: question.kinds,
+          required: question.required,
+          SurveyId: id,
+        });
+      }
+    }
+
+    res.json(updatedSurvey);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// 설문지 삭제
+router.delete("/:id", adminAuth, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedSurvey = await Survey.destroy({ where: { id } });
+
+    res.json(deletedSurvey);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// 설문 게시
+router.put("/posting/:id", adminAuth, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const postedSurvey = await Survey.update(
+      { state: SURVEY_STATE.POSTING },
+      { where: { id } },
+    );
+
+    res.json(postedSurvey);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// 설문 종료
+router.put("/end/:id", adminAuth, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const postedSurvey = await Survey.update(
+      { state: SURVEY_STATE.END },
+      { where: { id } },
+    );
+
+    res.json(postedSurvey);
   } catch (error) {
     res.status(400).json(error);
   }
