@@ -1,7 +1,6 @@
 <template>
   <section id="add__survey__page">
-    <div class="title">add survey page</div>
-    <button type="button" @click.prevent="addForm">항목추가</button>
+    <!-- 질문폼들 -->
     <ul>
       <survey-form
         v-for="(form, index) in formList"
@@ -15,7 +14,15 @@
       ></survey-form>
     </ul>
 
-    <button type="button" @click="submitSurvey">설문지 추가</button>
+    <!-- 버튼들 -->
+    <div class="btns shadow">
+      <button type="button" @click.prevent="addForm" title="폼추가">
+        <i class="fas fa-plus-circle icon"></i>
+      </button>
+      <button type="button" @click="submitSurvey" title="설문지 제출">
+        <i class="fas fa-folder-plus icon"></i>
+      </button>
+    </div>
   </section>
 </template>
 
@@ -83,5 +90,24 @@ export default {
 
 <style scoped>
 #add__survey__page {
+  position: relative;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 20%;
+  right: 5%;
+  background: white;
+  border-radius: 0.5em;
+}
+
+.btns > button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.5em;
+  margin: 1em 0.5em;
 }
 </style>

@@ -35,6 +35,9 @@ export default {
 
 <style scoped>
 #navigation-bar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
   background: var(--black-color);
   padding: 0 1rem;
 }
@@ -58,5 +61,18 @@ a {
   font-weight: bold;
   font-size: 1.5rem;
   padding: 2rem 1rem;
+}
+
+/* 네이게이션바 더늘어나면 햄버그메뉴만들생각 */
+@media screen and (max-width: 768px) {
+  #navigation-bar {
+    padding: 0 0.75rem;
+  }
+
+  a {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 1.5rem 0.75rem;
+  }
 }
 </style>

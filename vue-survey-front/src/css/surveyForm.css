@@ -29,16 +29,6 @@
   margin-top: 2em;
 }
 
-.survey__answer {
-  width: 50%;
-  height: 4vh;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid grey;
-  font-size: 1em;
-  margin-top: 2em;
-}
-
 .survey__answer__textarea {
   width: 70%;
   background: transparent;
@@ -67,4 +57,40 @@
 .survey__title:focus,
 .survey__answer:focus {
   outline: none;
+}
+
+.option__btn{
+  position: absolute;
+  bottom: -1em;
+  right: -1em;
+}
+
+@media screen and (max-width: 768px) {
+  .survey__title {
+    height: 3vh;
+    border-bottom: 0.75px solid grey;
+    font-size: 1em;
+  }
+  
+  .survey__answer__input {
+    height: 4vh;
+    border-bottom: 0.75px solid grey;
+    font-size: 0.75em;
+    margin-top: 1.5em;
+  }
+  
+  .survey__answer__textarea {
+    border: 0.75px solid grey;
+    border-radius: 0.15em;
+    font-size: 0.75em;
+    margin-top: 1.5em;
+  }
+
+  .wrapper > span {
+    height: 1.5px;
+  }
+
+  .option__btn{
+    font-size: 0.75em;
+  }
 }

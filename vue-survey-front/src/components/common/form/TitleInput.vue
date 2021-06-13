@@ -7,6 +7,7 @@
       @change="$emit('update:title', index, title)"
       ref="formTitle"
       v-model="title"
+      v-focus
     />
     <span />
   </div>
@@ -84,5 +85,18 @@ export default {
 
 .survey__title:focus {
   outline: none;
+}
+
+@media screen and (max-width: 768px) {
+  .survey__title {
+    height: 6vh;
+    border-bottom: 0.75px solid grey;
+    font-size: 1.5em;
+    font-weight: 700;
+  }
+
+  .wrapper > span {
+    height: 2px;
+  }
 }
 </style>

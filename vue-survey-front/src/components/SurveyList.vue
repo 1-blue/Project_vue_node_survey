@@ -146,7 +146,7 @@ export default {
 }
 
 .survey:hover {
-  border: 2 px solid lightskyblue;
+  border: 4px solid green;
   background: rgba(0, 0, 0, 0.8);
 }
 
@@ -156,12 +156,12 @@ export default {
 }
 
 .survey__title {
-  font-size: 1.5em;
+  font-size: 2vw;
   font-weight: bold;
 }
 
 .survey__time {
-  font-size: 0.5em;
+  font-size: 0.2vw;
 }
 
 .survey__btn__list {
@@ -171,16 +171,51 @@ export default {
 
 .survey__btn__list > button {
   border: none;
-  border-radius: 50%;
-  width: 4em;
-  height: 4em;
-  background: lightblue;
-  color: white;
+  border-radius: 20%;
+  width: 20%;
+  height: 100%;
+  padding: 1vw 0;
+  background: rgba(255, 255, 255, 0.4);
+  color: black;
+  font-size: 0.7vw;
+  font-weight: bold;
   cursor: pointer;
+}
+
+.survey__btn__list > button:hover {
+  border: 2px solid blue;
 }
 
 .survey:hover > .survey__btn__list {
   display: flex;
   justify-content: space-evenly;
+}
+
+@media screen and (max-width: 768px) {
+  .survey {
+    border-radius: 0.75em;
+  }
+
+  .survey:hover {
+    border: 2.75px solid green;
+  }
+
+  .survey__title {
+    font-weight: 600;
+  }
+
+  .survey__btn__list {
+    display: none;
+    margin-bottom: 0.75em;
+  }
+
+  .survey__btn__list > button {
+    width: 25%;
+    font-weight: 600;
+  }
+
+  .survey__btn__list > button:hover {
+    border: 1px solid blue;
+  }
 }
 </style>

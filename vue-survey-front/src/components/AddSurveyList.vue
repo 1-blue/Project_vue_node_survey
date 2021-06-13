@@ -22,6 +22,7 @@ export default {
 
 <style scoped>
 #add__survey__list {
+  padding-bottom: 10vh;
 }
 
 .survey__add__btn__container {

@@ -12,15 +12,15 @@ export function formatDate(value) {
   let day = converter(date.getDate());
 
   // 시
-  let hour = converter(date.getHours());
+  // let hour = converter(date.getHours());
 
   // 분
-  let minute = converter(date.getMinutes());
+  // let minute = converter(date.getMinutes());
 
   // 초
-  let second = converter(date.getSeconds());
+  // let second = converter(date.getSeconds());
 
-  return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분 ${second}초`;
+  return `${year}년 ${month}월 ${day}일`;
 }
 
 function converter(value) {

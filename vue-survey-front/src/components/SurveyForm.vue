@@ -28,7 +28,6 @@
         :index="index"
         :defaultTitle="form.title"
         :required="form.required"
-        :isFocus="isFocus"
         @change:form="changeForm"
         @delete:form="deleteForm"
         @toggle:required="toggleRequired"
@@ -48,7 +47,6 @@
         :index="index"
         :defaultTitle="form.title"
         :required="form.required"
-        :isFocus="isFocus"
         @change:form="changeForm"
         @delete:form="deleteForm"
         @toggle:required="toggleRequired"
@@ -119,10 +117,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .survey__form {
-  min-width: 768px;
+  min-width: 60vw;
   padding: 2em;
   margin: 2em 0;
   border: 1px solid black;
@@ -133,5 +132,19 @@ export default {
 
 .survey__form__focus {
   border-left: 5px solid #4285f4;
+}
+
+@media screen and (max-width: 768px) {
+  .survey__form {
+    padding: 1.5em;
+    margin: 1.5em 0;
+    border: 0.75px solid black;
+    border-radius: 0.2em;
+    border-top: 7.5px solid rgb(103, 58, 183);
+  }
+
+  .survey__form__focus {
+    border-left: 4px solid #4285f4;
+  }
 }
 </style>

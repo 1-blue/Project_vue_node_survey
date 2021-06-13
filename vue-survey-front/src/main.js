@@ -16,6 +16,13 @@ app.config.globalProperties.$filters = {
   formatDate,
 };
 
+// focus디렉티브 지정
+app.directive("focus", {
+  mounted(el) {
+    el.focus();
+  },
+});
+
 // 설문지에서 form종류
 app.config.globalProperties.SURVEY_KINDS = {
   TITLE: 0,
