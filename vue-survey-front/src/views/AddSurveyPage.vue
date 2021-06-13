@@ -10,12 +10,12 @@
         :index="index"
         @change:form="changeForm"
         @delete:form="deleteForm"
-        @toggle:isRequired="toggleIsRequired"
+        @toggle:required="toggleRequired"
         @update:title="updateTitle"
       ></survey-form>
     </ul>
 
-    <button type="button" @click="submitSurvey">설문지 추가하기</button>
+    <button type="button" @click="submitSurvey">설문지 추가</button>
   </section>
 </template>
 
@@ -36,6 +36,8 @@ export default {
     };
   },
   methods: {
+    // ======================= 겹치는 부분 =============================
+
     addForm() {
       this.formList.push({
         kinds: this.SURVEY_KINDS.SHORT_SUBJECTIVE,
@@ -50,9 +52,8 @@ export default {
     deleteForm(formIndex) {
       this.formList.splice(formIndex, 1);
     },
-    toggleIsRequired(formIndex) {
-      this.formList[formIndex].isRequired =
-        !this.formList[formIndex].isRequired;
+    toggleRequired(formIndex) {
+      this.formList[formIndex].required = !this.formList[formIndex].required;
     },
     updateTitle(formIndex, title) {
       this.formList[formIndex].title = title;

@@ -1,17 +1,17 @@
 <template>
   <span>
-    필수
+    <span>필수</span>
     <button type="button" class="toggle__btn">
-      <template v-if="isRequired">
+      <template v-if="required">
         <i
           class="fas fa-toggle-on"
-          @click="$emit('toggle:isRequired', isRequired)"
+          @click="$emit('toggle:required', required)"
         ></i>
       </template>
       <template v-else>
         <i
           class="fas fa-toggle-off"
-          @click="$emit('toggle:isRequired', isRequired)"
+          @click="$emit('toggle:required', required)"
         ></i>
       </template>
     </button>
@@ -22,7 +22,7 @@
 export default {
   name: "FormRequireToggleBtn",
   props: {
-    isRequired: {
+    required: {
       type: Boolean,
       required: true,
     },

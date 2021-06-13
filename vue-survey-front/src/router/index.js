@@ -25,6 +25,11 @@ const routes = [
     name: "AddSurveyPage",
     component: () => import("@/views/AddSurveyPage.vue"),
   },
+  {
+    path: "/survey/edit/:surveyId",
+    name: "EditSurveyPage",
+    component: () => import("@/views/EditSurveyPage.vue"),
+  },
 ];
 
 const router = createRouter({

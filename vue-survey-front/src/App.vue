@@ -18,7 +18,8 @@ export default {
 
 <style scoped>
 #app {
-  background: var(--write-color);
+  background: var(--backgrond-color);
+  min-height: 100vh;
 }
 
 @import "./css/reset.css";

@@ -10,6 +10,7 @@
         class="survey__title"
         placeholder="질문 제목"
         @change="updateTitle"
+        ref="formTitle"
         v-model="title"
       />
       <span />
@@ -28,8 +29,8 @@
 
     <!-- 필수 체크 토글 버튼 -->
     <form-require-toggle-btn
-      :isRequired="isRequired"
-      @toggle:isRequired="toggleIsRequired"
+      :required="required"
+      @toggle:required="toggleRequired"
     ></form-require-toggle-btn>
   </div>
 </template>
@@ -51,7 +52,15 @@ export default {
       type: Number,
       require: true,
     },
-    isRequired: {
+    defaultTitle: {
+      type: String,
+      default: "",
+    },
+    required: {
+      type: Boolean,
+      required: true,
+    },
+    isFocus: {
       type: Boolean,
       required: true,
     },
@@ -62,18 +71,26 @@ export default {
       title: "",
     };
   },
+  created() {
+    this.title = this.defaultTitle;
+  },
   watch: {
     selected(newValue) {
       // 폼번호, 바꿀폼순으로 전달
       this.$emit("change:form", this.index, newValue);
+    },
+    isFocus(value) {
+      if (value) {
+        this.$refs.formTitle.focus();
+      }
     },
   },
   methods: {
     deleteForm() {
       this.$emit("delete:form", this.index);
     },
-    toggleIsRequired() {
-      this.$emit("toggle:isRequired", this.index);
+    toggleRequired() {
+      this.$emit("toggle:required", this.index);
     },
     updateTitle() {
       this.$emit("update:title", this.index, this.title);

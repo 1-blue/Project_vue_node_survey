@@ -1,21 +1,37 @@
 <template>
   <li id="survey__form">
     <!-- 설문지 제목 -->
-    <form class="survey__form shadow" v-if="kinds === SURVEY_KINDS.TITLE">
-      <title-input :index="index" @update:title="updateTitle"></title-input>
+    <form
+      class="survey__form shadow"
+      :class="{ survey__form__focus: isFocus }"
+      v-if="kinds === SURVEY_KINDS.TITLE"
+      @click="isFocus = true"
+      @focusout="isFocus = false"
+    >
+      <title-input
+        :index="index"
+        :defaultTitle="form.title"
+        :isFocus="isFocus"
+        @update:title="updateTitle"
+      ></title-input>
     </form>
 
     <!-- 짧은 주관식 -->
     <form
       class="survey__form shadow"
+      :class="{ survey__form__focus: isFocus }"
       v-else-if="kinds === SURVEY_KINDS.SHORT_SUBJECTIVE"
+      @click="isFocus = true"
+      @focusout="isFocus = false"
     >
       <short-subjective-input
         :index="index"
-        :isRequired="isRequired"
+        :defaultTitle="form.title"
+        :required="form.required"
+        :isFocus="isFocus"
         @change:form="changeForm"
         @delete:form="deleteForm"
-        @toggle:isRequired="toggleIsRequired"
+        @toggle:required="toggleRequired"
         @update:title="updateTitle"
       ></short-subjective-input>
     </form>
@@ -23,14 +39,19 @@
     <!-- 긴 주관식 -->
     <form
       class="survey__form shadow"
+      :class="{ survey__form__focus: isFocus }"
       v-else-if="kinds === SURVEY_KINDS.LONG_SUBJECTIVE"
+      @click="isFocus = true"
+      @focusout="isFocus = false"
     >
       <long-subjective-input
         :index="index"
-        :isRequired="isRequired"
+        :defaultTitle="form.title"
+        :required="form.required"
+        :isFocus="isFocus"
         @change:form="changeForm"
         @delete:form="deleteForm"
-        @toggle:isRequired="toggleIsRequired"
+        @toggle:required="toggleRequired"
         @update:title="updateTitle"
       ></long-subjective-input>
     </form>
@@ -68,13 +89,11 @@ export default {
     kinds() {
       return this.form.kinds;
     },
-    isRequired() {
-      return this.form.isRequired;
-    },
   },
   data() {
     return {
       surveyTitle: "",
+      isFocus: false,
     };
   },
   methods: {
@@ -85,8 +104,8 @@ export default {
     deleteForm(formIndex) {
       this.$emit("delete:form", formIndex);
     },
-    toggleIsRequired(formIndex) {
-      this.$emit("toggle:isRequired", formIndex);
+    toggleRequired(formIndex) {
+      this.$emit("toggle:required", formIndex);
     },
     updateTitle(formIndex, title) {
       this.$emit("update:title", formIndex, title);
@@ -109,7 +128,10 @@ export default {
   border: 1px solid black;
   border-radius: 0.25em;
   border-top: 10px solid rgb(103, 58, 183);
-  /* 나중에 추가 포커스되면 왼쪽보더 */
-  /* border-left: 5px solid #4285f4; */
+  background: white;
+}
+
+.survey__form__focus {
+  border-left: 5px solid #4285f4;
 }
 </style>

@@ -5,6 +5,7 @@
       class="survey__title"
       placeholder="설문지 제목"
       @change="$emit('update:title', index, title)"
+      ref="formTitle"
       v-model="title"
     />
     <span />
@@ -19,11 +20,29 @@ export default {
       type: Number,
       required: true,
     },
+    defaultTitle: {
+      type: String,
+      default: "",
+    },
+    isFocus: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
       title: "",
     };
+  },
+  created() {
+    this.title = this.defaultTitle;
+  },
+  watch: {
+    isFocus(value) {
+      if (value) {
+        this.$refs.formTitle.focus();
+      }
+    },
   },
 };
 </script>
