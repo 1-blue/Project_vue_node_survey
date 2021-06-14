@@ -16,6 +16,13 @@ Vue와 Node를 이용한 설문조사 시스템 구축
 	+ 해야할것... 코드정리, $refs, setup 공부 및 css추가 ( 해야할거 다하고 사용자 설문입력받는 로직 추가할 예정 )
 5. 5일차
 	+ front : 반응형 추가 및 전체 css 정리, v-focus등록후 사용, 기존 focus 오류존재 ( focus해제안됨 )
+6. 6일차
+	+ front : `<component>`의 `is`속성을 이용해서 `SurveyForm`분기처리 간단화, transition적용
+
+## 문제
+1. transition을 적용하는데 생성과 삭제의 위치가 각각 달라서 적용하기가 애매함 ( form생성시 )
+2. formList의 form삭제시 형제의 데이터를 물려받는 경우가 있음... 이유는 모르겠음
+3. 컴포넌트 중복코드 제거하기
 
 ## 사용한 것
 + vue.js

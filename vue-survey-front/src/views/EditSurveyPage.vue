@@ -103,7 +103,9 @@ export default {
       this.formList[args[0]].kinds = args[1];
     },
     deleteForm(formIndex) {
-      this.formList.splice(formIndex, 1);
+      // css속임수때문에 setTimeout설정
+      // 폼을 삭제하는 부분은 추가하는 부분과 달라서 직접적으로 해결함.. 물론 방법이 좋지는 않음
+      setTimeout(() => this.formList.splice(formIndex, 1), 1000);
     },
     toggleRequired(formIndex) {
       this.formList[formIndex].required = !this.formList[formIndex].required;

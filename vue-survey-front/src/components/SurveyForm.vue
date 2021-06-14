@@ -1,63 +1,25 @@
 <template>
   <li id="survey__form">
-    <!-- 설문지 제목 -->
-    <form
-      class="survey__form shadow"
-      :class="{ survey__form__focus: isFocus }"
-      v-if="kinds === SURVEY_KINDS.TITLE"
-      @click="isFocus = true"
-      @focusout="isFocus = false"
-    >
-      <title-input
-        :index="index"
-        :defaultTitle="form.title"
-        :isFocus="isFocus"
-        @update:title="updateTitle"
-      ></title-input>
-    </form>
-
-    <!-- 짧은 주관식 -->
-    <form
-      class="survey__form shadow"
-      :class="{ survey__form__focus: isFocus }"
-      v-else-if="kinds === SURVEY_KINDS.SHORT_SUBJECTIVE"
-      @click="isFocus = true"
-      @focusout="isFocus = false"
-    >
-      <short-subjective-input
-        :index="index"
-        :defaultTitle="form.title"
-        :required="form.required"
-        @change:form="changeForm"
-        @delete:form="deleteForm"
-        @toggle:required="toggleRequired"
-        @update:title="updateTitle"
-      ></short-subjective-input>
-    </form>
-
-    <!-- 긴 주관식 -->
-    <form
-      class="survey__form shadow"
-      :class="{ survey__form__focus: isFocus }"
-      v-else-if="kinds === SURVEY_KINDS.LONG_SUBJECTIVE"
-      @click="isFocus = true"
-      @focusout="isFocus = false"
-    >
-      <long-subjective-input
-        :index="index"
-        :defaultTitle="form.title"
-        :required="form.required"
-        @change:form="changeForm"
-        @delete:form="deleteForm"
-        @toggle:required="toggleRequired"
-        @update:title="updateTitle"
-      ></long-subjective-input>
-    </form>
-
-    <!-- 객관식 -->
-    <template v-else-if="kinds === SURVEY_KINDS.MULTIPLE_CHOICE">
-      <div class="title">객관식</div>
-    </template>
+    <transition name="fade" mode="out-in" appear>
+      <form
+        class="survey__form shadow"
+        :class="dynamicClass"
+        @click="isFocus = true"
+        @focusout="isFocus = false"
+      >
+        <component
+          :is="formName"
+          :isFocus="isFocus"
+          :index="index"
+          :defaultTitle="form.title"
+          :required="form.required"
+          @change:form="changeForm"
+          @delete:form="deleteForm"
+          @toggle:required="toggleRequired"
+          @update:title="updateTitle"
+        ></component>
+      </form>
+    </transition>
   </li>
 </template>
 
@@ -83,16 +45,38 @@ export default {
       required: true,
     },
   },
-  computed: {
-    kinds() {
-      return this.form.kinds;
-    },
-  },
   data() {
     return {
       surveyTitle: "",
       isFocus: false,
+      isDelete: false,
     };
+  },
+  computed: {
+    kinds() {
+      return this.form.kinds;
+    },
+    formName() {
+      switch (this.kinds) {
+        case this.SURVEY_KINDS.TITLE:
+          return "TitleInput";
+        case this.SURVEY_KINDS.SHORT_SUBJECTIVE:
+          return "ShortSubjectiveInput";
+        case this.SURVEY_KINDS.LONG_SUBJECTIVE:
+          return "LongSubjectiveInput";
+        case this.SURVEY_KINDS.MULTIPLE_CHOICE:
+          return "나중에추가할거임";
+      }
+
+      // 예외추가하기
+      return "default";
+    },
+    dynamicClass() {
+      return {
+        survey__form__focus: this.isFocus,
+        form__delete__effect: this.isDelete,
+      };
+    },
   },
   methods: {
     changeForm(...args) {
@@ -101,6 +85,13 @@ export default {
     },
     deleteForm(formIndex) {
       this.$emit("delete:form", formIndex);
+
+      // 삭제 애니메이션 적용 ( 삭제는 EditSurveyPage에서 하기 때문에 삭제 트랜지션이 적용안되서 직접처리해줌 )
+      this.isDelete = true;
+      setTimeout(() => {
+        this.isDelete = false;
+        this.isFocus = false;
+      }, 1000);
     },
     toggleRequired(formIndex) {
       this.$emit("toggle:required", formIndex);
@@ -133,6 +124,8 @@ export default {
 .survey__form__focus {
   border-left: 5px solid #4285f4;
 }
+
+@import "../css/transition.css";
 
 @media screen and (max-width: 768px) {
   .survey__form {

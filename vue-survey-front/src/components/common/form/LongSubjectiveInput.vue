@@ -76,6 +76,9 @@ export default {
       // 폼번호, 바꿀폼순으로 전달
       this.$emit("change:form", this.index, newValue);
     },
+    defaultTitle(newValue) {
+      this.title = newValue;
+    },
   },
   methods: {
     deleteForm() {
