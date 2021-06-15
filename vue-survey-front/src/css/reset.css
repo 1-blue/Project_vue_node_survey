@@ -25,6 +25,9 @@ a:hover {
 input:focus {
   outline: 1px solid blue;
 }
+input:disabled {
+  color: black;
+}
 textarea:focus {
   outline: 1px solid blue;
 }

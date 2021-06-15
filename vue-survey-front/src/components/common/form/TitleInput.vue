@@ -8,6 +8,7 @@
       ref="formTitle"
       v-model="title"
       v-focus
+      :disabled="isAnswer"
     />
     <span />
   </div>
@@ -29,14 +30,15 @@ export default {
       type: Boolean,
       required: true,
     },
+    isAnswer: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
       title: "",
     };
-  },
-  created() {
-    this.title = this.defaultTitle;
   },
   watch: {
     isFocus(value) {
@@ -44,6 +46,9 @@ export default {
         this.$refs.formTitle.focus();
       }
     },
+  },
+  created() {
+    this.title = this.defaultTitle;
   },
 };
 </script>

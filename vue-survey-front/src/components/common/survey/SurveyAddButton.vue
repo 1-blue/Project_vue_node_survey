@@ -1,5 +1,5 @@
 <template>
-  <section id="add__survey__list">
+  <section id="add__survey__button">
     <ul class="survey__add__btn__container">
       <!-- 설문지 종류 리스트 추가 -->
       <li class="survey__add__btn__default shadow" @click="routeAddSurveyPage">
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "AddSurveyList",
+  name: "AddSurveyButton",
   methods: {
     routeAddSurveyPage() {
       this.$router.push("/survey/add");
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-#add__survey__list {
+#add__survey {
   padding-bottom: 10vh;
 }
 

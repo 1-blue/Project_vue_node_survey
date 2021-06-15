@@ -1,5 +1,5 @@
 <template>
-  <section id="edit__survey__page">
+  <section id="survey__edit__page">
     <!-- 질문폼들 -->
     <ul>
       <survey-form
@@ -7,6 +7,7 @@
         :key="index"
         :form="form"
         :index="index"
+        :isAnswer="false"
         @change:form="changeForm"
         @delete:form="deleteForm"
         @toggle:required="toggleRequired"
@@ -28,10 +29,10 @@
 
 <script>
 import { fetchOneSurvey, editSurvey } from "@/api/index.js";
-import SurveyForm from "@/components/SurveyForm.vue";
+import SurveyForm from "@/components/common/survey/SurveyForm.vue";
 
 export default {
-  name: "EditSurveyPage",
+  name: "SurveyEditPage",
   components: {
     SurveyForm,
   },
@@ -137,7 +138,7 @@ export default {
 </script>
 
 <style scoped>
-#edit__survey__page {
+#survey__edit__page {
   position: relative;
 }
 

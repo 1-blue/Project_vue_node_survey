@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "FormDeleteBtn",
+  name: "FormDeleteButton",
 };
 </script>
 

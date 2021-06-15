@@ -63,7 +63,7 @@ async function fetchOneSurvey(surveyId) {
   }
 }
 
-// 설문지 수정하기
+// 설문지 수정
 async function editSurvey(surveyId, survey) {
   //eslint-disable-next-line no-useless-catch
   try {
@@ -74,7 +74,7 @@ async function editSurvey(surveyId, survey) {
   }
 }
 
-// 설문지 삭제하기
+// 설문지 삭제
 async function deleteSurvey(surveyId) {
   //eslint-disable-next-line no-useless-catch
   try {
@@ -85,7 +85,7 @@ async function deleteSurvey(surveyId) {
   }
 }
 
-// 설문지 게시하기
+// 설문시작
 async function postingSurvey(surveyId) {
   //eslint-disable-next-line no-useless-catch
   try {
@@ -96,7 +96,7 @@ async function postingSurvey(surveyId) {
   }
 }
 
-// 설문지 게시하기
+// 설문종료
 async function endSurvey(surveyId) {
   //eslint-disable-next-line no-useless-catch
   try {

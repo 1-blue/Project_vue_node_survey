@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "FormRequireToggleBtn",
+  name: "FormRequireToggleButton",
   props: {
     required: {
       type: Boolean,

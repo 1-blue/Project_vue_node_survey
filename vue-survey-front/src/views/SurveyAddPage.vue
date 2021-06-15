@@ -1,5 +1,5 @@
 <template>
-  <section id="add__survey__page">
+  <section id="survey__add__page">
     <!-- 질문폼들 -->
     <ul>
       <survey-form
@@ -7,6 +7,7 @@
         :key="index"
         :form="form"
         :index="index"
+        :isAnswer="false"
         @change:form="changeForm"
         @delete:form="deleteForm"
         @toggle:required="toggleRequired"
@@ -16,7 +17,7 @@
 
     <!-- 버튼들 -->
     <div class="btns shadow">
-      <button type="button" @click.prevent="addForm" title="폼추가">
+      <button type="button" @click.prevent="addForm" title="항목 추가">
         <i class="fas fa-plus-circle icon"></i>
       </button>
       <button type="button" @click="submitSurvey" title="설문지 제출">
@@ -27,18 +28,18 @@
 </template>
 
 <script>
-import SurveyForm from "@/components/SurveyForm.vue";
+import SurveyForm from "@/components/common/survey/SurveyForm.vue";
 import { createSurvey } from "@/api/index.js";
 
 export default {
-  name: "AddSurveyPage",
+  name: "SurveyAddPage",
   components: {
     SurveyForm,
   },
   data() {
     return {
       formList: [
-        { kinds: this.SURVEY_KINDS.TITLE, title: "", isRequired: true },
+        { title: "", kinds: this.SURVEY_KINDS.TITLE, isRequired: true },
       ],
     };
   },
@@ -47,8 +48,8 @@ export default {
 
     addForm() {
       this.formList.push({
-        kinds: this.SURVEY_KINDS.SHORT_SUBJECTIVE,
         title: "",
+        kinds: this.SURVEY_KINDS.SHORT_SUBJECTIVE,
         isRequired: false,
       });
     },
@@ -91,7 +92,7 @@ export default {
 </script>
 
 <style scoped>
-#add__survey__page {
+#survey__add__page {
   position: relative;
 }
 

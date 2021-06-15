@@ -2,7 +2,7 @@
   <section id="navigation-bar" class="shadow">
     <ul class="container__link">
       <li>
-        <router-link to="/survey" class="link">
+        <router-link to="/survey/show" class="link">
           <span class="link__text">LOGO</span>
         </router-link>
       </li>

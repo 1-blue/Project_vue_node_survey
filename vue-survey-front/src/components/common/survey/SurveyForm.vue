@@ -13,6 +13,7 @@
           :index="index"
           :defaultTitle="form.title"
           :required="form.required"
+          :isAnswer="isAnswer"
           @change:form="changeForm"
           @delete:form="deleteForm"
           @toggle:required="toggleRequired"
@@ -42,6 +43,10 @@ export default {
     },
     index: {
       type: Number,
+      required: true,
+    },
+    isAnswer: {
+      type: Boolean,
       required: true,
     },
   },
@@ -125,7 +130,7 @@ export default {
   border-left: 5px solid #4285f4;
 }
 
-@import "../css/transition.css";
+@import "../../../css/transition.css";
 
 @media screen and (max-width: 768px) {
   .survey__form {

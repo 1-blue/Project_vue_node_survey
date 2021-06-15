@@ -1,29 +1,24 @@
 <template>
   <section id="survey__list">
     <ul class="survey__container">
+      <!-- 설문지들 grid로 배치해서 보여줌 -->
       <li class="survey shadow" v-for="survey in surveyList" :key="survey.id">
-        <section class="survey__contents">
-          <span class="survey__title">{{ survey.title }}</span>
-          <span class="survey__time">
-            <i class="far fa-clock"></i>
-            {{ $filters.formatDate(survey.createdAt) }}
-          </span>
-        </section>
-        <section class="survey__btn__list">
-          <button type="button" @click="routeEdit(survey.id)">수정</button>
-          <button type="button" @click="removeSurvey(survey.id)">삭제</button>
-          <button
-            type="button"
-            @click="changeStateSurvey(survey.id, survey.state)"
-          >
-            {{ state(survey.state) }}
-          </button>
-        </section>
+        <!-- 설문지 제목, 생성시간, 간단한 내용 -->
+        <survey-contents :survey="survey"></survey-contents>
+
+        <!-- 설문지 수정, 삭제, 활성화, 설문하기 등의 버튼들 -->
+        <survey-option-buttons
+          :isAdmin="isAdmin"
+          :survey="survey"
+          @routeDoSurveyPage="routeDoSurveyPage"
+          @routeEditSurveyPage="routeEditSurveyPage"
+          @removeSurvey="removeSurvey"
+          @changeSurveyState="changeSurveyState"
+        ></survey-option-buttons>
       </li>
     </ul>
   </section>
 </template>
-
 <script>
 import {
   fetchSurvey,
@@ -31,13 +26,45 @@ import {
   postingSurvey,
   endSurvey,
 } from "@/api/index.js";
+import SurveyContents from "@/components/common/survey/SurveyContents.vue";
+import SurveyOptionButtons from "@/components/common/survey/SurveyOptionButtons.vue";
 
 export default {
   name: "SurveyList",
+  components: {
+    SurveyContents,
+    SurveyOptionButtons,
+  },
+  props: {
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       surveyList: [],
     };
+  },
+  async created() {
+    try {
+      const { data: surveyList } = await fetchSurvey();
+      this.surveyList = surveyList;
+    } catch (error) {
+      switch (error.response.status) {
+        case 400:
+          alert(
+            "서버측 에러입니다. 잠시후에 다시시도해주세요. by SurveyList.vue",
+          );
+          break;
+
+        default:
+          alert(
+            "알 수 없는 에러입니다. 잠시후에 다시시도해주세요 by SurveyList.vue",
+          );
+          break;
+      }
+    }
   },
   methods: {
     state(state) {
@@ -50,9 +77,15 @@ export default {
           return "??";
       }
     },
-    routeEdit(surveyId) {
+    routeDoSurveyPage(surveyId) {
       this.$router.push({
-        name: "EditSurveyPage",
+        name: "SurveyDoPage",
+        params: { surveyId },
+      });
+    },
+    routeEditSurveyPage(surveyId) {
+      this.$router.push({
+        name: "SurveyEditPage",
         params: { surveyId },
       });
     },
@@ -73,7 +106,7 @@ export default {
         }
       }
     },
-    async changeStateSurvey(surveyId, surveyState) {
+    async changeSurveyState(surveyId, surveyState) {
       try {
         switch (surveyState) {
           case this.SURVEY_STATE.PENDING:
@@ -102,33 +135,23 @@ export default {
       }
     },
   },
-  async created() {
-    try {
-      const { data: surveyList } = await fetchSurvey();
-      this.surveyList = surveyList;
-    } catch (error) {
-      switch (error.response.status) {
-        case 400:
-          alert(
-            "서버측 에러입니다. 잠시후에 다시시도해주세요. by SurveyList.vue",
-          );
-          break;
-
-        default:
-          alert(
-            "알 수 없는 에러입니다. 잠시후에 다시시도해주세요 by SurveyList.vue",
-          );
-          break;
-      }
-    }
-  },
 };
 </script>
 
 <style scoped>
 .survey__container {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: repeat(auto-fit, auto);
+  grid-template-columns: repeat(auto-fit, 25%);
+  gap: 1em;
+  place-items: center;
+  place-content: center;
+
+  background: blue;
+  width: 90%;
+  padding: 2rem;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 
 .survey {
@@ -142,53 +165,11 @@ export default {
   background: white;
   text-align: center;
   cursor: pointer;
-  margin: auto;
 }
 
 .survey:hover {
   border: 4px solid green;
   background: rgba(0, 0, 0, 0.8);
-}
-
-.survey__contents {
-  display: flex;
-  flex-direction: column;
-}
-
-.survey__title {
-  font-size: 2vw;
-  font-weight: bold;
-}
-
-.survey__time {
-  font-size: 0.2vw;
-}
-
-.survey__btn__list {
-  display: none;
-  margin-bottom: 1em;
-}
-
-.survey__btn__list > button {
-  border: none;
-  border-radius: 20%;
-  width: 20%;
-  height: 100%;
-  padding: 1vw 0;
-  background: rgba(255, 255, 255, 0.4);
-  color: black;
-  font-size: 0.7vw;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.survey__btn__list > button:hover {
-  border: 2px solid blue;
-}
-
-.survey:hover > .survey__btn__list {
-  display: flex;
-  justify-content: space-evenly;
 }
 
 @media screen and (max-width: 768px) {
@@ -202,20 +183,6 @@ export default {
 
   .survey__title {
     font-weight: 600;
-  }
-
-  .survey__btn__list {
-    display: none;
-    margin-bottom: 0.75em;
-  }
-
-  .survey__btn__list > button {
-    width: 25%;
-    font-weight: 600;
-  }
-
-  .survey__btn__list > button:hover {
-    border: 1px solid blue;
   }
 }
 </style>

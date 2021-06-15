@@ -11,24 +11,29 @@ const routes = [
     component: () => import("@/views/HomePage.vue"),
   },
   {
-    path: "/survey",
-    name: "SurveyPage",
-    component: () => import("@/views/SurveyPage.vue"),
-  },
-  {
     path: "/admin",
     name: "AdminPage",
     component: () => import("@/views/AdminPage.vue"),
   },
   {
+    path: "/survey/show",
+    name: "SurveyShowPage",
+    component: () => import("@/views/SurveyShowPage.vue"),
+  },
+  {
     path: "/survey/add",
-    name: "AddSurveyPage",
-    component: () => import("@/views/AddSurveyPage.vue"),
+    name: "SurveyAddPage",
+    component: () => import("@/views/SurveyAddPage.vue"),
   },
   {
     path: "/survey/edit/:surveyId",
-    name: "EditSurveyPage",
-    component: () => import("@/views/EditSurveyPage.vue"),
+    name: "SurveyEditPage",
+    component: () => import("@/views/SurveyEditPage.vue"),
+  },
+  {
+    path: "/survey/do/:surveyId",
+    name: "SurveyDoPage",
+    component: () => import("@/views/SurveyDoPage.vue"),
   },
 ];
 

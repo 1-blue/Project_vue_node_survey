@@ -10,25 +10,25 @@
     <template v-else>
       <!-- 저장되어 있는 설문지들 -->
       <h1 class="title">저장된 설문지</h1>
-      <survey-list></survey-list>
+      <survey-list :isAdmin="true"></survey-list>
 
       <!-- 설문지 생성버튼 -->
       <h1 class="title">설문지만들기</h1>
-      <add-survey-list></add-survey-list>
+      <survey-add-button></survey-add-button>
     </template>
   </section>
 </template>
 
 <script>
 import AdminForm from "@/components/AdminForm.vue";
-import AddSurveyList from "@/components/AddSurveyList.vue";
-import SurveyList from "@/components/SurveyList.vue";
+import SurveyAddButton from "@/components/common/survey/SurveyAddButton.vue";
+import SurveyList from "@/components/common/survey/SurveyList.vue";
 
 export default {
   name: "AdminPage",
   components: {
     AdminForm,
-    AddSurveyList,
+    SurveyAddButton,
     SurveyList,
   },
   computed: {

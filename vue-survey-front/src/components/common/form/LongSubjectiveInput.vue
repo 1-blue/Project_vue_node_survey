@@ -1,8 +1,5 @@
 <template>
   <div id="long__subjective__input">
-    <!-- 설문지 종류 선택 -->
-    <select-option v-model="selected"></select-option>
-
     <!-- 제목 영역 -->
     <div class="wrapper">
       <input
@@ -11,6 +8,7 @@
         placeholder="질문 제목"
         @change="updateTitle"
         v-model="title"
+        :disabled="isAnswer"
       />
       <span />
     </div>
@@ -20,33 +18,42 @@
       class="survey__answer__textarea"
       placeholder="장문 텍스트"
       rows="10"
-      disabled
+      :disabled="!isAnswer"
     />
 
-    <div class="option__btn">
-      <!-- 필수 체크 토글 버튼 -->
-      <form-require-toggle-btn
-        :required="required"
-        @toggle:required="toggleRequired"
-      ></form-require-toggle-btn>
+    <template v-if="!isAnswer">
+      <!-- 설문지 종류 선택 -->
+      <select-form v-model="selected"></select-form>
 
-      <!-- 폼 삭제 버튼 -->
-      <form-delete-btn @delete:form="deleteForm"></form-delete-btn>
-    </div>
+      <div class="option__btn">
+        <!-- 필수 체크 토글 버튼 -->
+        <form-require-toggle-button
+          :required="required"
+          @toggle:required="toggleRequired"
+        ></form-require-toggle-button>
+
+        <!-- 폼 삭제 버튼 -->
+        <form-delete-button @delete:form="deleteForm"></form-delete-button>
+      </div>
+    </template>
+
+    <template v-else>
+      <!-- 설문지 제출버튼 추가 -->
+    </template>
   </div>
 </template>
 
 <script>
-import SelectOption from "@/components/common/form/SelectOption.vue";
-import FormDeleteBtn from "@/components/common/form/FormDeleteBtn.vue";
-import FormRequireToggleBtn from "@/components/common/form/FormRequireToggleBtn.vue";
+import SelectForm from "@/components/common/form/SelectForm.vue";
+import FormDeleteButton from "@/components/common/form/FormDeleteButton.vue";
+import FormRequireToggleButton from "@/components/common/form/FormRequireToggleButton.vue";
 
 export default {
   name: "ShortSubjectiveInput",
   components: {
-    SelectOption,
-    FormDeleteBtn,
-    FormRequireToggleBtn,
+    SelectForm,
+    FormDeleteButton,
+    FormRequireToggleButton,
   },
   props: {
     index: {
@@ -61,15 +68,16 @@ export default {
       type: Boolean,
       required: true,
     },
+    isAnswer: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
       selected: this.SURVEY_KINDS.LONG_SUBJECTIVE,
       title: "",
     };
-  },
-  created() {
-    this.title = this.defaultTitle;
   },
   watch: {
     selected(newValue) {
@@ -79,6 +87,9 @@ export default {
     defaultTitle(newValue) {
       this.title = newValue;
     },
+  },
+  created() {
+    this.title = this.defaultTitle;
   },
   methods: {
     deleteForm() {
