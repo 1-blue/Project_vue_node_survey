@@ -9,10 +9,13 @@ const SURVEY_STATE = require("../global/surveyState.js");
 router.post("/", adminAuth, async (req, res) => {
   const survey = req.body;
 
+  console.log("createSurvey >> ", survey);
+
   try {
     // 질문지 생성
     const { id: SurveyId } = await Survey.create({
       title: survey[0].title,
+      subTitle: survey[0].subTitle,
       state: SURVEY_STATE.PENDING,
     });
 
@@ -30,7 +33,14 @@ router.post("/", adminAuth, async (req, res) => {
 
     res.json({ msg: "Creation completed" });
   } catch (error) {
-    res.status(400).json(error);
+    console.log("message >> ", error.message);
+    // 설문조사 제목이 이미 존재할 경우
+    if (error.message === "Validation error") {
+      return res.status(409).json(error);
+    }
+
+    // 그 이외에 다른 오류
+    return res.status(400).json(error);
   }
 });
 
@@ -69,7 +79,7 @@ router.put("/:id", adminAuth, async (req, res) => {
   try {
     // 설문지 수정
     const updatedSurvey = await Survey.update(
-      { title: survey[0].title },
+      { title: survey[0].title, subTitle: survey[0].subTitle },
       { where: { id } },
     );
 
@@ -103,7 +113,11 @@ router.put("/:id", adminAuth, async (req, res) => {
 
     res.json(updatedSurvey);
   } catch (error) {
-    res.status(400).json(error);
+    // 중복타이틀
+    if (error.message === "Validation error") {
+      return res.status(409).json(error);
+    }
+    return res.status(400).json(error);
   }
 });
 

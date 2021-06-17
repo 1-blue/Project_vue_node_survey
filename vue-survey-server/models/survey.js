@@ -14,7 +14,13 @@ module.exports = class Survey extends Sequelize.Model {
         title: {
           type: Sequelize.STRING(20),
           allowNull: false,
+          unique: true,
           comment: "질문지 제목",
+        },
+        subTitle: {
+          type: Sequelize.STRING(100),
+          allowNull: false,
+          comment: "질문지 부가설명",
         },
         state: {
           type: Sequelize.INTEGER,
