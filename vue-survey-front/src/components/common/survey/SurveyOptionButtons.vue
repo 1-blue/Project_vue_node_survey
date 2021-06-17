@@ -7,12 +7,8 @@
       <button type="button" @click="$emit('removeSurvey', survey.id)">
         삭제
       </button>
-      <button
-        type="button"
-        @click="$emit('changeSurveyState', survey.id, survey.state)"
-      >
-        <!-- {{ state(survey.state) }} -->
-        게시
+      <button type="button" @click="$emit('changeSurveyState', survey)">
+        {{ state }}
       </button>
     </template>
     <template v-else>
@@ -34,6 +30,18 @@ export default {
     isAdmin: {
       type: Boolean,
       required: true,
+    },
+  },
+  computed: {
+    state() {
+      switch (this.survey.state) {
+        case this.SURVEY_STATE.PENDING:
+          return "게시";
+        case this.SURVEY_STATE.POSTING:
+          return "종료";
+        default:
+          return "??";
+      }
     },
   },
 };

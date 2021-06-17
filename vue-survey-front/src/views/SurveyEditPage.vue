@@ -12,6 +12,7 @@
         @delete:form="deleteForm"
         @toggle:required="toggleRequired"
         @update:title="updateTitle"
+        @update:subTitle="updateSubTitle"
       ></survey-form>
     </ul>
 
@@ -77,6 +78,7 @@ export default {
         kinds: this.SURVEY_KINDS.TITLE,
         state: this.survey.state,
         title: this.survey.title,
+        subTitle: this.survey.subTitle,
       });
 
       // 설문지와 연관된 질문들 추가
@@ -114,20 +116,26 @@ export default {
     updateTitle(formIndex, title) {
       this.formList[formIndex].title = title;
     },
-    async editSurvey() {
+    updateSubTitle(formIndex, subTitle) {
+      this.formList[formIndex].subTitle = subTitle;
+    },
+    async submitSurvey() {
       try {
         await editSurvey(this.surveyId, this.formList);
+        this.$router.push("/admin");
       } catch (error) {
-        console.log(error);
         switch (error.response.status) {
           case 400:
             alert(
-              "서버측 에러로 설문지 생성에 실패했습니다. 잠시후에 다시시도해주세요 by EditSurveyPage.vue",
+              "서버측 에러로 설문지 수정에 실패했습니다. 잠시후에 다시시도해주세요 by SurveyEditPage.vue",
             );
+            break;
+          case 409:
+            alert("중복된 설문지 타이틀입니다. by SurveyEditPage.vue");
             break;
           default:
             alert(
-              "알 수 없는 에러로 설문지 생성에 실패했습니다. 잠시후에 다시시도해주세요 by EditSurveyPage.vue",
+              "알 수 없는 에러로 설문지 수정에 실패했습니다. 잠시후에 다시시도해주세요 by SurveyEditPage.vue",
             );
             break;
         }

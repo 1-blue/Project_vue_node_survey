@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "SelectOption",
+  name: "FormSelect",
   props: {
     modelValue: {
       type: Number,

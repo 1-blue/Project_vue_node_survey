@@ -2,23 +2,27 @@
   <section id="survey__list">
     <ul class="survey__container">
       <!-- 설문지들 grid로 배치해서 보여줌 -->
-      <li class="survey shadow" v-for="survey in surveyList" :key="survey.id">
-        <!-- 설문지 제목, 생성시간, 간단한 내용 -->
-        <survey-contents :survey="survey"></survey-contents>
+      <!-- 여기 뷰공식페이지 권고사항대로 한건데 eslint경고띄움... 뭐잘못한건가? -->
+      <template v-for="survey in surveyList" :key="survey.id">
+        <li class="survey shadow" v-if="checkAdminOrGuest(survey.state)">
+          <!-- 설문지 제목, 생성시간, 간단한 내용 -->
+          <survey-contents :survey="survey"></survey-contents>
 
-        <!-- 설문지 수정, 삭제, 활성화, 설문하기 등의 버튼들 -->
-        <survey-option-buttons
-          :isAdmin="isAdmin"
-          :survey="survey"
-          @routeDoSurveyPage="routeDoSurveyPage"
-          @routeEditSurveyPage="routeEditSurveyPage"
-          @removeSurvey="removeSurvey"
-          @changeSurveyState="changeSurveyState"
-        ></survey-option-buttons>
-      </li>
+          <!-- 설문지 수정, 삭제, 활성화, 설문하기 등의 버튼들 -->
+          <survey-option-buttons
+            :isAdmin="isAdmin"
+            :survey="survey"
+            @routeDoSurveyPage="routeDoSurveyPage"
+            @routeEditSurveyPage="routeEditSurveyPage"
+            @removeSurvey="removeSurvey"
+            @changeSurveyState="changeSurveyState"
+          ></survey-option-buttons>
+        </li>
+      </template>
     </ul>
   </section>
 </template>
+
 <script>
 import {
   fetchSurvey,
@@ -38,7 +42,7 @@ export default {
   props: {
     isAdmin: {
       type: Boolean,
-      default: false,
+      required: false,
     },
   },
   data() {
@@ -47,34 +51,27 @@ export default {
     };
   },
   async created() {
-    try {
-      const { data: surveyList } = await fetchSurvey();
-      this.surveyList = surveyList;
-    } catch (error) {
-      switch (error.response.status) {
-        case 400:
-          alert(
-            "서버측 에러입니다. 잠시후에 다시시도해주세요. by SurveyList.vue",
-          );
-          break;
-
-        default:
-          alert(
-            "알 수 없는 에러입니다. 잠시후에 다시시도해주세요 by SurveyList.vue",
-          );
-          break;
-      }
-    }
+    await this.fetchSurveyList();
   },
   methods: {
-    state(state) {
-      switch (state) {
-        case 0:
-          return "게시";
-        case 1:
-          return "종료";
-        default:
-          return "??";
+    async fetchSurveyList() {
+      try {
+        const { data: surveyList } = await fetchSurvey();
+        this.surveyList = surveyList;
+      } catch (error) {
+        switch (error.response.status) {
+          case 400:
+            alert(
+              "서버측 에러입니다. 잠시후에 다시시도해주세요. by SurveyList.vue",
+            );
+            break;
+
+          default:
+            alert(
+              "알 수 없는 에러입니다. 잠시후에 다시시도해주세요 by SurveyList.vue",
+            );
+            break;
+        }
       }
     },
     routeDoSurveyPage(surveyId) {
@@ -92,10 +89,13 @@ export default {
     async removeSurvey(surveyId) {
       try {
         await deleteSurvey(surveyId);
+        await this.fetchSurveyList();
       } catch (error) {
         switch (error.response.status) {
           case 400:
-            alert("나중에 처리하자");
+            alert(
+              "설문지 삭제에 실패했습니다. 잠시후에 다시 시도해주세요. by SurveyList.vue",
+            );
             break;
 
           default:
@@ -106,14 +106,18 @@ export default {
         }
       }
     },
-    async changeSurveyState(surveyId, surveyState) {
+    async changeSurveyState(survey) {
       try {
-        switch (surveyState) {
+        switch (survey.state) {
           case this.SURVEY_STATE.PENDING:
-            await postingSurvey(surveyId);
+            await postingSurvey(survey.id);
+            await this.fetchSurveyList();
+            alert(`"${survey.title}" 설문지 설문 시작됨`);
             break;
           case this.SURVEY_STATE.POSTING:
-            await endSurvey(surveyId);
+            await endSurvey(survey.id);
+            await this.fetchSurveyList();
+            alert(`"${survey.title}" 설문지 설문 종료됨`);
             break;
 
           default:
@@ -133,6 +137,12 @@ export default {
             break;
         }
       }
+    },
+    checkAdminOrGuest(state) {
+      // 관리자면 모든 권한을 허용하고, 아니면 설문가능한 페이지만 보여주고
+      return (
+        this.isAdmin || (!this.isAdmin && state === this.SURVEY_STATE.POSTING)
+      );
     },
   },
 };

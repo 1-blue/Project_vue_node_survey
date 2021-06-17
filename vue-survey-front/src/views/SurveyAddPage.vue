@@ -12,6 +12,7 @@
         @delete:form="deleteForm"
         @toggle:required="toggleRequired"
         @update:title="updateTitle"
+        @update:subTitle="updateSubTitle"
       ></survey-form>
     </ul>
 
@@ -39,7 +40,12 @@ export default {
   data() {
     return {
       formList: [
-        { title: "", kinds: this.SURVEY_KINDS.TITLE, isRequired: true },
+        {
+          title: "",
+          subTitle: "",
+          kinds: this.SURVEY_KINDS.TITLE,
+          isRequired: true,
+        },
       ],
     };
   },
@@ -50,7 +56,7 @@ export default {
       this.formList.push({
         title: "",
         kinds: this.SURVEY_KINDS.SHORT_SUBJECTIVE,
-        isRequired: false,
+        required: false,
       });
     },
     changeForm(...args) {
@@ -68,20 +74,27 @@ export default {
     updateTitle(formIndex, title) {
       this.formList[formIndex].title = title;
     },
+    updateSubTitle(formIndex, subTitle) {
+      this.formList[formIndex].subTitle = subTitle;
+    },
     async submitSurvey() {
       try {
         await createSurvey(this.formList);
+        this.$router.push("/admin");
       } catch (error) {
         switch (error.response.status) {
           case 400:
             alert(
-              "서버측 에러로 설문지 생성에 실패했습니다. 잠시후에 다시시도해주세요 by AddSurveyPage.vue",
+              "서버측 에러로 설문지 생성에 실패했습니다. 잠시후에 다시시도해주세요 by SurveyAddPage.vue",
             );
+            break;
+          case 409:
+            alert("이미 존재하는 설문지 이름입니다. by SurveyAddPage.vue");
             break;
 
           default:
             alert(
-              "알 수 없는 에러로 설문지 생성에 실패했습니다. 잠시후에 다시시도해주세요 by AddSurveyPage.vue",
+              "알 수 없는 에러로 설문지 생성에 실패했습니다. 잠시후에 다시시도해주세요 by SurveyAddPage.vue",
             );
             break;
         }

@@ -12,12 +12,14 @@
           :isFocus="isFocus"
           :index="index"
           :defaultTitle="form.title"
+          :defaultSubTitle="form.subTitle"
           :required="form.required"
           :isAnswer="isAnswer"
           @change:form="changeForm"
           @delete:form="deleteForm"
           @toggle:required="toggleRequired"
           @update:title="updateTitle"
+          @update:subTitle="updateSubTitle"
         ></component>
       </form>
     </transition>
@@ -25,16 +27,16 @@
 </template>
 
 <script>
-import TitleInput from "@/components/common/form/TitleInput.vue";
-import ShortSubjectiveInput from "@/components/common/form/ShortSubjectiveInput.vue";
-import LongSubjectiveInput from "@/components/common/form/LongSubjectiveInput.vue";
+import FormTitle from "@/components/common/form/FormTitle.vue";
+import FormShortSubjective from "@/components/common/form/FormShortSubjective.vue";
+import FormLongSubjective from "@/components/common/form/FormLongSubjective.vue";
 
 export default {
   name: "SurveyForm",
   components: {
-    TitleInput,
-    ShortSubjectiveInput,
-    LongSubjectiveInput,
+    FormTitle,
+    FormShortSubjective,
+    FormLongSubjective,
   },
   props: {
     form: {
@@ -64,11 +66,11 @@ export default {
     formName() {
       switch (this.kinds) {
         case this.SURVEY_KINDS.TITLE:
-          return "TitleInput";
+          return "FormTitle";
         case this.SURVEY_KINDS.SHORT_SUBJECTIVE:
-          return "ShortSubjectiveInput";
+          return "FormShortSubjective";
         case this.SURVEY_KINDS.LONG_SUBJECTIVE:
-          return "LongSubjectiveInput";
+          return "FormLongSubjective";
         case this.SURVEY_KINDS.MULTIPLE_CHOICE:
           return "나중에추가할거임";
       }
@@ -103,6 +105,9 @@ export default {
     },
     updateTitle(formIndex, title) {
       this.$emit("update:title", formIndex, title);
+    },
+    updateSubTitle(formIndex, subTitle) {
+      this.$emit("update:subTitle", formIndex, subTitle);
     },
   },
 };

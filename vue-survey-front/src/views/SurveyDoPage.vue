@@ -38,6 +38,7 @@ export default {
     // 설문지의 제목
     this.questionList.push({
       title: survey.title,
+      subTitle: survey.subTitle,
       kinds: this.SURVEY_KINDS.TITLE,
       isRequired: true,
     });
