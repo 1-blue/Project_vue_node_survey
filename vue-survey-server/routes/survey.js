@@ -1,7 +1,7 @@
 require("dotenv").config();
 const router = require("express").Router();
 const adminAuth = require("../middlewares/authorization.js");
-const { Survey, Question } = require("../models/index.js");
+const { Survey, Question, Answer } = require("../models/index.js");
 const QUESTION_KINDS = require("../global/questionKinds.js");
 const SURVEY_STATE = require("../global/surveyState.js");
 
@@ -45,7 +45,7 @@ router.post("/", adminAuth, async (req, res) => {
 });
 
 // 설문지 및 설문지제목 가져오기 ( 질문은 안가져감... 설문지 수정 or 설문시 가져갈 예정 )
-router.get("/", adminAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const surveyList = await Survey.findAll();
 
@@ -56,7 +56,7 @@ router.get("/", adminAuth, async (req, res) => {
 });
 
 // 하나의 설문지 상세내용 가져오기
-router.get("/:id", adminAuth, async (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -161,6 +161,55 @@ router.put("/end/:id", adminAuth, async (req, res) => {
     );
 
     res.json(postedSurvey);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// 설문지 제출
+router.post("/submit", async (req, res) => {
+  try {
+    const answerList = req.body;
+
+    answerList.forEach(v => {
+      const { id: QuestionId, answer } = v;
+
+      Answer.create({
+        QuestionId,
+        answer,
+      });
+    });
+
+    res.json(answerList);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// 설문지 결과보기
+router.get("/result/:surveyId", async (req, res) => {
+  try {
+    const { surveyId } = req.params;
+    const answerList = [];
+
+    // 해당 설문지와 연관된 질문들 찾기
+    const survey = await Survey.findOne({
+      where: { id: surveyId },
+      include: { model: Question },
+    });
+
+    answerList.push(survey);
+
+    // 찾은 질문들에 연관된 답변 찾기
+    survey.Questions.forEach(async v => {
+      const answer = await Answer.findAll({ where: { QuestionId: v.id } });
+      answerList.push(answer);
+    });
+
+    // 질문들 찾는걸 기다리지를 않아서 일단 setTimeout사용
+    setTimeout(() => {
+      res.json(answerList);
+    }, 100);
   } catch (error) {
     res.status(400).json(error);
   }

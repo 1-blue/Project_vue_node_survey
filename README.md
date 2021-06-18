@@ -20,9 +20,12 @@ Vue와 Node를 이용한 설문조사 시스템 구축
 	+ front : `<component>`의 `is`속성을 이용해서 `SurveyForm`분기처리 간단화, transition적용
 7. 7일차
 	+ front : 컴포넌트명, 컴포넌트 옵션순서, 안쓰는 데이터 등등 코드정리 및 구조정리 and SurveyForm분기처리로 같은 컴포넌트에서 프롭스를 이용해서 답변 or 생성, 수정 처리
-7. 8일차
+8. 8일차
 	+ front : subTitle추가, 설문지 활성/비활성화, 코드정리 ( css순서 및 한줄짜리 methods제거 )
 	+ server : DB title의 subTitle추가
+9. 9일차 ~ 10일차
+	+ front : 설문결과 보는 페이지 추가
+	+ server : 설문결과 DB에서 조회하는 코드 추가
 
 ## 문제
 1. transition을 적용하는데 생성과 삭제의 위치가 각각 달라서 적용하기가 애매함 ( form생성시 )
