@@ -1,5 +1,5 @@
 <template>
-  <section id="add__survey__button">
+  <section id="survey__add__button">
     <ul class="survey__add__btn__container">
       <!-- 설문지 종류 리스트 추가 -->
       <li class="survey__add__btn__default shadow" @click="routeAddSurveyPage">
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-#add__survey {
+#survey__add__button {
   padding-bottom: 10vh;
 }
 

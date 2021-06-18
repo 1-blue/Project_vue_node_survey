@@ -107,6 +107,28 @@ async function endSurvey(surveyId) {
   }
 }
 
+// 설문지 제출
+async function surveySubmit(answerList) {
+  //eslint-disable-next-line no-useless-catch
+  try {
+    const data = await instance.post(`/survey/submit`, answerList);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// 설문지 결과보기
+async function surveyShowResult(surveyId) {
+  //eslint-disable-next-line no-useless-catch
+  try {
+    const data = await instance.get(`/survey/result/${surveyId}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export {
   loginAdmin,
   createSurvey,
@@ -116,4 +138,6 @@ export {
   deleteSurvey,
   postingSurvey,
   endSurvey,
+  surveySubmit,
+  surveyShowResult,
 };

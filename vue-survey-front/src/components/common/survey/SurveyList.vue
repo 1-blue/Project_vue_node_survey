@@ -16,6 +16,7 @@
             @routeEditSurveyPage="routeEditSurveyPage"
             @removeSurvey="removeSurvey"
             @changeSurveyState="changeSurveyState"
+            @showResult="routeShowResult"
           ></survey-option-buttons>
         </li>
       </template>
@@ -137,6 +138,12 @@ export default {
             break;
         }
       }
+    },
+    routeShowResult(surveyId) {
+      this.$router.push({
+        name: "SurveyResultPage",
+        params: { surveyId },
+      });
     },
     checkAdminOrGuest(state) {
       // 관리자면 모든 권한을 허용하고, 아니면 설문가능한 페이지만 보여주고

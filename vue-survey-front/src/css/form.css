@@ -108,7 +108,7 @@
     margin-top: 1.5em;
   }
   .survey__form__long__answer {
-    border: 0.75px solid grey;
+    border-bottom: 0.75px solid grey;
     border-radius: 0.15em;
     font-size: 0.75em;
     margin-top: 1.5em;
@@ -120,7 +120,10 @@
     height: 1.5px;
   }
 
-  
+  /* 공통 */
+  .required__text{
+    font-size: 0.75em;
+  }
 }
 
 
@@ -141,10 +144,17 @@
   left: 0;
   width: 0px;
   height: 2px;
-  background: #997ace;
+  background: blue;
   transition: all 0.3s;
 }
 
 .isAnswer {
   border-bottom: none;
+}
+
+.required__text{
+  color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
 }

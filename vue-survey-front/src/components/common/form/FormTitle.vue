@@ -31,6 +31,8 @@
       />
       <span />
     </div>
+
+    <strong style="color: red">* 필수항목</strong>
   </div>
 </template>
 

@@ -15,15 +15,15 @@
     </div>
 
     <!-- 답변 영역 -->
-
     <div class="wrapper">
       <textarea
         class="survey__form__long__answer"
         placeholder="장문 텍스트"
         :disabled="!isAnswer"
-        rows="10"
         @keyup="textareaResize"
         @keydown="textareaResize"
+        @change="$emit('change:answer', id, answer)"
+        v-model.trim="answer"
         ref="textarea"
       />
       <span />
@@ -48,6 +48,9 @@
     </template>
 
     <template v-else>
+      <!-- 필수표시하는 텍스트 -->
+      <strong class="required__text" ref="requiredText"></strong>
+
       <!-- 설문지 제출버튼 추가 -->
     </template>
   </div>
@@ -82,11 +85,15 @@ export default {
       type: Boolean,
       required: true,
     },
+    id: {
+      type: Number,
+    },
   },
   data() {
     return {
       selected: this.SURVEY_KINDS.LONG_SUBJECTIVE,
       title: "",
+      answer: "",
     };
   },
   watch: {
@@ -107,7 +114,13 @@ export default {
     this.title = this.defaultTitle;
   },
   mounted() {
+    // textarea 입력범위 초과시 resize
     this.textareaResize();
+
+    // 필수요소시 "(*필수)"표시
+    if (this.required && this.isAnswer) {
+      this.$refs.requiredText.textContent += " (*필수)";
+    }
   },
   methods: {
     textareaResize() {

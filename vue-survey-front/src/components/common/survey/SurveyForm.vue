@@ -15,11 +15,13 @@
           :defaultSubTitle="form.subTitle"
           :required="form.required"
           :isAnswer="isAnswer"
+          :id="form.id"
           @change:form="changeForm"
           @delete:form="deleteForm"
           @toggle:required="toggleRequired"
           @update:title="updateTitle"
           @update:subTitle="updateSubTitle"
+          @change:answer="changAnswer"
         ></component>
       </form>
     </transition>
@@ -108,6 +110,9 @@ export default {
     },
     updateSubTitle(formIndex, subTitle) {
       this.$emit("update:subTitle", formIndex, subTitle);
+    },
+    changAnswer(formId, answer) {
+      this.$emit("change:answer", formId, answer);
     },
   },
 };

@@ -20,9 +20,14 @@
         class="survey__form__short__answer"
         placeholder="단답형 텍스트"
         :disabled="!isAnswer"
+        @change="$emit('change:answer', id, answer)"
+        v-model.trim="answer"
       />
       <span />
     </div>
+
+    <!-- 필수표시하는 텍스트 -->
+    <strong class="required__text" ref="requiredText"></strong>
 
     <template v-if="!isAnswer">
       <!-- 설문지 종류 선택 -->
@@ -43,6 +48,9 @@
     </template>
 
     <template v-else>
+      <!-- 필수표시하는 텍스트 -->
+      <strong class="required__text" ref="requiredText"></strong>
+
       <!-- 설문지 제출버튼 추가 answerSubmit -->
     </template>
   </div>
@@ -77,11 +85,15 @@ export default {
       type: Boolean,
       required: true,
     },
+    id: {
+      type: Number,
+    },
   },
   data() {
     return {
       selected: this.SURVEY_KINDS.SHORT_SUBJECTIVE,
       title: "",
+      answer: "",
     };
   },
   watch: {
@@ -91,10 +103,19 @@ export default {
     },
     defaultTitle(newValue) {
       this.title = newValue;
+
+      if (this.required) {
+        this.title += " * ";
+      }
     },
   },
   created() {
     this.title = this.defaultTitle;
+  },
+  mounted() {
+    if (this.required && this.isAnswer) {
+      this.$refs.requiredText.textContent += " (*필수)";
+    }
   },
 };
 </script>

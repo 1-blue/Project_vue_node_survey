@@ -10,6 +10,9 @@
       <button type="button" @click="$emit('changeSurveyState', survey)">
         {{ state }}
       </button>
+      <button type="button" @click="$emit('showResult', survey.id)">
+        결과
+      </button>
     </template>
     <template v-else>
       <button type="button" @click="$emit('routeDoSurveyPage', survey.id)">
